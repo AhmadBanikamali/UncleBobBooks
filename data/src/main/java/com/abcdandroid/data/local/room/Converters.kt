@@ -1,4 +1,4 @@
-package com.abcdandroid.data.local
+package com.abcdandroid.data.local.room
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson

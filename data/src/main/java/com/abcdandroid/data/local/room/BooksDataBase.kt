@@ -1,9 +1,8 @@
-package com.abcdandroid.data.local
+package com.abcdandroid.data.local.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.abcdandroid.data.local.daos.Dao
 import com.abcdandroid.data.local.model.DaoBook
 
 @Database(entities = [DaoBook::class], version = 1, exportSchema = false)

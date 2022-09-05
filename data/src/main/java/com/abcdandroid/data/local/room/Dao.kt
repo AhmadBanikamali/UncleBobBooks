@@ -1,4 +1,4 @@
-package com.abcdandroid.data.local.daos
+package com.abcdandroid.data.local.room
 
 import androidx.room.Dao
 import androidx.room.Insert

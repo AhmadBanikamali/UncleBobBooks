@@ -2,8 +2,12 @@ package com.abcdandroid.data.di
 
 import android.content.Context
 import androidx.room.Room
-import com.abcdandroid.data.local.BooksDataBase
-import com.abcdandroid.data.remote.Api
+import com.abcdandroid.data.local.LocalSource
+import com.abcdandroid.data.local.RoomSourceImpl
+import com.abcdandroid.data.local.room.BooksDataBase
+import com.abcdandroid.data.remote.RemoteSource
+import com.abcdandroid.data.remote.RetrofitSourceImpl
+import com.abcdandroid.data.remote.retrofit.Api
 import com.abcdandroid.data.repository.RepositoryImpl
 import com.abcdandroid.domain.Repository
 import dagger.Binds
@@ -37,8 +41,7 @@ abstract class Module {
                 context,
                 BooksDataBase::class.java,
                 BooksDataBase.BOOKS_DATABASE
-            ).fallbackToDestructiveMigration()
-                .build()
+            ).fallbackToDestructiveMigration().build()
 
 
         @Provides
@@ -49,4 +52,10 @@ abstract class Module {
 
     @Binds
     abstract fun bindRepository(repositoryImpl: RepositoryImpl): Repository
+
+    @Binds
+    abstract fun bindLocalSource(localSource: RoomSourceImpl): LocalSource
+
+    @Binds
+    abstract fun bindRemoteSource(remoteSource: RetrofitSourceImpl): RemoteSource
 }

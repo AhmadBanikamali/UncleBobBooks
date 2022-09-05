@@ -9,7 +9,6 @@ fun DtoBook.daoToUiBook() = UiBook(
     id = id,
     name = volumeInfo?.title,
     coverImage = volumeInfo?.imageLinks?.thumbnail,
-    author = volumeInfo?.authors,
     isFavorite = false
 )
 
@@ -17,14 +16,12 @@ fun DtoBook.dtoToDaoBook() = DaoBook(
     id = id.orEmpty(),
     name = volumeInfo?.title,
     coverImage = volumeInfo?.imageLinks?.thumbnail,
-    author = volumeInfo?.authors
 )
 
 fun DaoBook.daoToUiBook() = UiBook(
     id = id,
     name = name,
     coverImage = coverImage,
-    author = author,
     isFavorite = isFavorite
 )
 
@@ -45,7 +42,5 @@ fun UiBook.toDaoBook() = DaoBook(
     id = id.orEmpty(),
     name = name,
     coverImage = coverImage,
-    author = author,
     isFavorite = isFavorite
-
 )
