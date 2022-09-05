@@ -5,10 +5,10 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class DaoBook(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int? = null,
-    val bookId: String,
+    @PrimaryKey
+    val id: String,
     val name: String?,
     val coverImage: String?,
-    val author: List<String?>?
+    val author: List<String?>?,
+    val isFavorite:Boolean =false
 )

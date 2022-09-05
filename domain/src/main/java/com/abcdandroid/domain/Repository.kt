@@ -12,4 +12,11 @@ interface Repository {
 
     fun getBooksFromSSOT(): Flow<GenericResponse<List<UiBook>>>
 
+    fun refreshDataBase(): Flow<GenericResponse<Any>>
+
+    suspend fun addBookToFavorites(book: UiBook)
+
+    suspend fun removeBookFromFavorites(book: UiBook)
+
+    fun getFavoriteBooks(): Flow<List<UiBook>>
 }

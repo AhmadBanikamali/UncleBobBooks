@@ -5,10 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.abcdandroid.domain.model.DataSource
+import com.abcdandroid.domain.model.DataSource.Local
+import com.abcdandroid.domain.model.DataSource.Remote
 import com.abcdandroid.domain.model.GenericResponse
-import com.abcdandroid.domain.model.UiBook
 import com.abcdandroid.domain.use_case.BookUseCase
+import com.abcdandroid.presenter.allbooks.Events.OnRefreshDataClick
+import com.abcdandroid.presenter.allbooks.Events.OnToggleFavoriteClick
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,37 +20,75 @@ class AllBooksViewModel @Inject constructor(private val bookUseCase: BookUseCase
 
     var state by mutableStateOf(AllBooksState())
 
-    fun getBooksFromRemote() {
+    fun onEvent(event: Events) {
+        when (event) {
+            OnRefreshDataClick -> refreshData()
+            is OnToggleFavoriteClick -> {
+                viewModelScope.launch {
+                    if (event.isSelected) bookUseCase.addBookToFavorites(event.uiBook)
+                    else bookUseCase.removeBookFromFavorites(event.uiBook)
+                }
+            }
+        }
+    }
+
+    private fun refreshData() {
         viewModelScope.launch {
-            bookUseCase.getBooksFromSSOT().collect { response: GenericResponse<List<UiBook>> ->
+            bookUseCase.refreshDataBase().collect { response ->
                 state = when (response) {
-                    is GenericResponse.Loading -> state.copy(
-                        isLoading = true,
-                        data = listOf(),
-                        hasError = null,
-                        refreshed = false
-                    )
-                    is GenericResponse.Result -> when (response.dataSource) {
-                        DataSource.Local -> state.copy(
-                            isLoading = false,
-                            data = response.result.getOrNull(),
-                            hasError = null,
+                    is GenericResponse.Loading ->
+                        state.copy(
+                            isLoading = true,
+                            error = null,
                             refreshed = false
                         )
-                        DataSource.Remote -> if (response.result.isSuccess) state.copy(
+                    is GenericResponse.Result ->
+                        if (response.result.isSuccess) {
+                            state.copy(
+                                isLoading = false,
+                                error = null,
+                                refreshed = true
+                            )
+                        } else state.copy(
                             isLoading = false,
-                            data = response.result.getOrNull(),
-                            hasError = null,
-                            refreshed = false
-                        ) else state.copy(
-                            isLoading = false,
-                            data = null,
-                            hasError = response.result.exceptionOrNull()?.localizedMessage,
+                            error = response.result.exceptionOrNull()?.localizedMessage,
                             refreshed = true
                         )
-
-                    }
                 }
+            }
+        }
+    }
+
+
+    fun getFromSSOT() {
+        viewModelScope.launch {
+            bookUseCase.getBooksFromSSOT().collect { response ->
+                state = when (response) {
+                    is GenericResponse.Loading ->
+                        state.copy(isLoading = true)
+                    is GenericResponse.Result ->
+                        when (response.dataSource) {
+                            Local -> state.copy(data = response.result.getOrNull())
+                            Remote ->
+                                if (response.result.isSuccess) state.copy(
+                                    isLoading = false,
+                                    refreshed = true
+                                ) else
+                                    state.copy(
+                                        error = response.result.exceptionOrNull()?.localizedMessage.orEmpty(),
+                                        isLoading = false,
+                                    )
+                        }
+                }
+
+            }
+        }
+    }
+
+    fun getFavorites() {
+        viewModelScope.launch {
+            bookUseCase.getFavoriteBooks().collect {
+                state = state.copy(favorites = it)
             }
         }
     }

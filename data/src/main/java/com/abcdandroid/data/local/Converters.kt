@@ -4,12 +4,14 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class Converters {
+object Converters {
+
     @TypeConverter
     fun fromArrayList(list: List<String?>?): String {
         val gson = Gson()
         return gson.toJson(list)
     }
+
     @TypeConverter
     fun toArrayList(list:String):  List<String?>? {
         val gson = Gson()
