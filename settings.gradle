@@ -12,8 +12,16 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
 rootProject.name = "Uncle Bob Books"
 include ':app'
-include ':domain'
-include ':data'
-include ':presenter'
+include ':books:domain'
+include ':books:data'
+include ':books:presenter'
+
+include ':socket'
+include ':socket:data'
+include ':socket:presenter'
+include ':socket:domain'
+include ':common'
+include ':common:data_common'

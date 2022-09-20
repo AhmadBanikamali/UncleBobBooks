@@ -1,4 +1,4 @@
-package com.abcdandroid.unclebobbooks
+package com.android.data_common
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -9,7 +9,7 @@ import org.junit.runner.RunWith
 import org.junit.Assert.*
 
 /**
- * Instrumented testSocket, which will execute on an Android device.
+ * Instrumented test, which will execute on an Android device.
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
@@ -17,8 +17,8 @@ import org.junit.Assert.*
 class ExampleInstrumentedTest {
     @Test
     fun useAppContext() {
-        // Context of the app under testSocket.
+        // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.abcdandroid.unclebobbooks", appContext.packageName)
+        assertEquals("com.android.data_common.test", appContext.packageName)
     }
 }

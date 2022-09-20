@@ -1,4 +1,4 @@
-package com.abcdandroid.unclebobbooks
+package com.android.presenter
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under testSocket.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.abcdandroid.unclebobbooks", appContext.packageName)
+        assertEquals("com.android.presenter.testSocket", appContext.packageName)
     }
 }

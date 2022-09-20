@@ -56,9 +56,13 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
     implementation 'androidx.activity:activity-compose:1.3.1'
-    implementation project(path: ':domain')
-    implementation project(path: ':data')
-    implementation project(path: ':presenter')
+    implementation project(path: ':books:domain')
+    implementation project(path: ':books:data')
+    implementation project(path: ':books:presenter')
+    implementation project(path: ':socket:domain')
+    implementation project(path: ':socket:data')
+    implementation project(path: ':socket:presenter')
+    implementation project(path: ':common:data_common')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -71,6 +75,7 @@ dependencies {
 
     implementation("com.google.dagger:hilt-android:2.38.1")
     kapt("com.google.dagger:hilt-android-compiler:2.38.1")
+
 }
 
 // Allow references to generated code

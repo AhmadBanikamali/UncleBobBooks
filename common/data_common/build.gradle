@@ -1,0 +1,1 @@
+apply from: rootDir.getAbsolutePath()+"/data_build.gradle"

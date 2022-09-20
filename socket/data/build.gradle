@@ -1,0 +1,11 @@
+apply from: rootDir.getAbsolutePath()+'/data_build.gradle'
+dependencies {
+    implementation project(path: ':socket:domain')
+    implementation project(path: ':common:data_common')
+
+    implementation 'com.tinder.scarlet:scarlet:0.1.12'
+    implementation "com.tinder.scarlet:websocket-okhttp:0.1.12"
+    implementation "com.tinder.scarlet:stream-adapter-coroutines:0.1.12"
+    implementation "com.tinder.scarlet:message-adapter-gson:0.1.12"
+    implementation "com.tinder.scarlet:lifecycle-android:0.1.12"
+}

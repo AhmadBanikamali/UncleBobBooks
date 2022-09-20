@@ -1,0 +1,7 @@
+apply from: rootDir.getAbsolutePath() + '/presentation_build.gradle'
+
+dependencies {
+    implementation project(path: ':socket:domain')
+    implementation "com.tinder.scarlet:stream-adapter-rxjava2:0.1.12"
+
+}

@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.abcdandroid.presenter.allbooks.AllBooksScreen
 import com.abcdandroid.unclebobbooks.ui.theme.UncleBobBooksTheme
+import com.android.presenter.ScarletTest
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,7 +29,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    AllBooksScreen()
+//                    AllBooksScreen()
+                    ScarletTest()
                 }
             }
         }

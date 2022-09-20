@@ -1,0 +1,5 @@
+apply from: rootDir.getAbsolutePath()+'/presentation_build.gradle'
+
+dependencies {
+    implementation project(path: ':books:domain')
+}
