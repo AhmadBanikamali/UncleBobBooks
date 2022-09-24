@@ -1,4 +1,1 @@
 apply from: rootDir.getAbsolutePath()+'/domain_build.gradle'
-dependencies {
-    implementation "com.tinder.scarlet:stream-adapter-rxjava2:0.1.12"
-}

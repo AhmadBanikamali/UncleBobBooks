@@ -8,4 +8,12 @@ dependencies {
     implementation "com.tinder.scarlet:stream-adapter-coroutines:0.1.12"
     implementation "com.tinder.scarlet:message-adapter-gson:0.1.12"
     implementation "com.tinder.scarlet:lifecycle-android:0.1.12"
+
+    // used api to set this library visible to its user (app module)
+    api ('io.socket:socket.io-client:2.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
+
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
+
 }

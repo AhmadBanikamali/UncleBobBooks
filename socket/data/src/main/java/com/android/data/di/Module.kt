@@ -5,9 +5,11 @@ import com.android.data.RepositoryImpl
 import com.android.data.remote.rest.RestService
 import com.android.data.remote.rest.RetrofitRestService
 import com.android.data.remote.rest.RetrofitRestServiceImpl
-import com.android.data.remote.ws.ScarletSocketService
-import com.android.data.remote.ws.ScarletSocketServiceImpl
 import com.android.data.remote.ws.SocketService
+import com.android.data.remote.ws.scarlet.ScarletSocketService
+import com.android.data.remote.ws.scarlet.ScarletSocketServiceImpl
+import com.android.data.remote.ws.socketio.SocketIOSocketServiceImpl
+import com.android.data.remote.ws.websocket.WebSocketServiceImpl
 import com.android.domain.Repository
 import com.tinder.scarlet.Lifecycle
 import com.tinder.scarlet.MessageAdapter
@@ -23,13 +25,18 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ActivityContext
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.socket.client.Socket
+import kotlinx.coroutines.CoroutineScope
 import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.WebSocketListener
 import retrofit2.Retrofit
 import retrofit2.create
+import javax.inject.Qualifier
 import javax.inject.Singleton
+import io.socket.client.IO as IO_Socket
+import kotlinx.coroutines.Dispatchers.IO as IO_Coroutine
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -83,6 +90,19 @@ abstract class Module {
             scarlet.create(ScarletSocketService::class.java)
 
 
+        @Singleton
+        @Provides
+        fun provideSocketIOService(): Socket = IO_Socket.socket("http://192.168.27.2:3000")
+
+        @Provides
+        @Singleton
+        fun provideCoroutineScope():CoroutineScope = CoroutineScope(IO_Coroutine)
+
+
+        @Provides
+        @Singleton
+        fun provideRequest():Request = Request.Builder().url("http://192.168.27.2:22080").build()
+
     }
 
 
@@ -96,7 +116,30 @@ abstract class Module {
 
     @Binds
     @Singleton
-    abstract fun bindSocketService(scarletSocketServiceImpl: ScarletSocketServiceImpl): SocketService
+    @ScarletScope
+    abstract fun bindScarletSocketService(scarletSocketServiceImpl: ScarletSocketServiceImpl): SocketService
+
+    @Binds
+    @Singleton
+    @SocketIOScope
+    abstract fun bindSocketIOSocketService(socketIOSocketServiceImpl: SocketIOSocketServiceImpl): SocketService
+
+    @Binds
+    @Singleton
+    @WebSocketScope
+    abstract fun bindWebSocketSocketService(webSocketServiceImpl: WebSocketServiceImpl): SocketService
+
+    @Qualifier
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class SocketIOScope
 
 
+    @Qualifier
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class ScarletScope
+
+
+    @Qualifier
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class WebSocketScope
 }

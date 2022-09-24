@@ -1,4 +1,4 @@
-package com.android.data.remote.ws
+package com.android.data.remote.ws.scarlet
 
 import com.tinder.scarlet.ws.Receive
 import com.tinder.scarlet.ws.Send

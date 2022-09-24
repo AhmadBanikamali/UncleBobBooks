@@ -7,8 +7,6 @@ import com.android.domain.use_case.ReceiveData
 import com.android.domain.use_case.SendData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,11 +18,17 @@ class ScarletViewModel @Inject constructor(
     private val getEmployee: GetEmployee,
 ) : ViewModel() {
 
-    fun receiveData() = this.receiveData.invoke()
 
+
+    init {
+        viewModelScope.launch {
+            receiveData().receiveAsFlow().collect{
+                println(it)
+            }
+        }
+    }
 
     fun testSocket() {
-
         viewModelScope.launch(IO) {
             sendData("A")
         }
